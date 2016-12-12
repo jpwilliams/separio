@@ -42,6 +42,6 @@ module.exports = function separio (options) {
   }
 
   if (options.deps && options.deps.enabled) {
-    checkDeps(manifest, Number.isFinite(options.deps) ? options.deps : 30000, options.restart)
+    checkDeps(manifest, options.deps.interval, options.restart)
   }
 }
