@@ -1,2 +1,2 @@
-# `separio`
-Make _your_ apps self-sufficient.
+# separio
+Make your apps self-sufficient.

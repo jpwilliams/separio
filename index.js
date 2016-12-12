@@ -47,7 +47,7 @@ module.exports = function separio (options) {
       branch = split[1]
     }
 
-    checkGit(remote, branch, options.git.interval, options.restart)
+    checkGit(remote, branch, options.git.hard, options.git.interval, options.restart)
   }
 
   if (options.deps && options.deps.enabled) {
