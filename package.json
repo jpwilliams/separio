@@ -10,12 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "debug": "^2.3.3",
-    "get-package-json-from-github": "^1.2.1",
     "joi": "^10.0.5",
-    "microboot": "~2.0.0",
     "npm-check": "^5.4.0",
     "package-json": "^2.4.0",
-    "simple-git": "^1.65.0",
-    "timestring": "^3.0.0"
+    "simple-git": "^1.65.0"
   }
 }

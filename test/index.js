@@ -7,7 +7,8 @@ separio({
   },
   
   deps: {
-    enabled: true
+    enabled: true,
+    interval: 5000
   },
 
   npm: {

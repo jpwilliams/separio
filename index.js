@@ -20,6 +20,15 @@ module.exports = function separio (options) {
 
   options = validation.value
 
+  if (!options.restart) {
+    debug('WARNING: No custom restart function provided')
+
+    options.restart = (() => {
+      debug('Rebooting')
+      process.kill(process.pid, process.env.RESTART_SIGNAL || 'SIGUSR2')
+    })
+  }
+
   if (options.npm && options.npm.enabled) {
     if (options.npm.range === 'latest') options.npm.range = '*'
 
