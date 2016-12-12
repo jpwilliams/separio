@@ -1,6 +1,16 @@
 const separio = require('../')
 
 separio({
-  // git: 'https://github.com/jpwilliams/microboot',
-  deps: true
+  git: {
+    enabled: true,
+    interval: 5000
+  },
+  
+  deps: {
+    enabled: true
+  },
+
+  npm: {
+    range: '^'
+  }
 })

@@ -6,25 +6,42 @@ var manifest = require(require('path').resolve('package.json'))
 var checkNpm = require('./lib/checks/npm')
 var checkGit = require('./lib/checks/git')
 var checkDeps = require('./lib/checks/deps')
+var optionsSchema = require('./lib/optionsSchema')
+var joi = require('joi')
 
 module.exports = function separio (options) {
   options = options || {}
 
-  if (options.npm) {
-    if (['^', '~', 'latest'].indexOf(options.npm) < 0) {
-      throw new Error('Invalid NPM check given; must be one of either "^", "~"" or "latest"')
+  const validation = joi.validate(options, optionsSchema, {
+    stripUnknown: true
+  })
+
+  if (validation.error) throw validation.error
+
+  options = validation.value
+
+  if (options.npm && options.npm.enabled) {
+    if (options.npm.range === 'latest') options.npm.range = '*'
+
+    checkNpm(manifest.name, manifest.version, options.npm.range, options.npm.interval, options.restart)
+  }
+
+  if (options.git && options.git.enabled) {
+    var split = options.git.branch.split('/')
+    var remote = 'origin'
+    var branch = 'master'
+
+    if (split.length === 1) {
+      branch = split[0]
+    } else {
+      remote = split[0]
+      branch = split[1]
     }
 
-    debug()
-
-    checkNpm(manifest.name, manifest.version, options.npm, 1000)
+    checkGit(remote, branch, options.git.interval, options.restart)
   }
 
-  if (options.git) {
-    checkGit(options.git, manifest.version, 1000)
-  }
-
-  if (options.deps) {
-    checkDeps(manifest, 1000)
+  if (options.deps && options.deps.enabled) {
+    checkDeps(manifest, Number.isFinite(options.deps) ? options.deps : 30000, options.restart)
   }
 }
