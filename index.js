@@ -1,13 +1,14 @@
 // David for checks deps
 // NPM for checking package status (current version against latest version)
 // Git for checking package status from there? Track a specific branch? All in the URL?
-var debug = require('debug')('separio')
-var manifest = require(require('path').resolve('package.json'))
-var checkNpm = require('./lib/checks/npm')
-var checkGit = require('./lib/checks/git')
-var checkDeps = require('./lib/checks/deps')
-var optionsSchema = require('./lib/optionsSchema')
-var joi = require('joi')
+const debug = require('debug')('separio')
+const manifest = require(require('path').resolve('package.json'))
+const checkNpm = require('./lib/checks/npm')
+const checkGit = require('./lib/checks/git')
+const checkDeps = require('./lib/checks/deps')
+const optionsSchema = require('./lib/optionsSchema')
+const joi = require('joi')
+const timestring = require('timestring')
 
 module.exports = function separio (options) {
   options = options || {}
@@ -23,22 +24,22 @@ module.exports = function separio (options) {
   if (!options.restart) {
     debug('WARNING: No custom restart function provided')
 
-    options.restart = (() => {
+    options.restart = () => {
       debug('Rebooting')
       process.kill(process.pid, process.env.RESTART_SIGNAL || 'SIGUSR2')
-    })
+    }
   }
 
   if (options.npm && options.npm.enabled) {
     if (options.npm.range === 'latest') options.npm.range = '*'
 
-    checkNpm(manifest.name, manifest.version, options.npm.range, options.npm.interval, options.restart)
+    checkNpm(manifest.name, manifest.version, options.npm.range, timestring(options.npm.interval.toString(), 'ms'), options.restart)
   }
 
   if (options.git && options.git.enabled) {
-    var split = options.git.branch.split('/')
-    var remote = 'origin'
-    var branch = 'master'
+    const split = options.git.branch.split('/')
+    let remote = 'origin'
+    let branch = 'master'
 
     if (split.length === 1) {
       branch = split[0]
@@ -47,10 +48,10 @@ module.exports = function separio (options) {
       branch = split[1]
     }
 
-    checkGit(remote, branch, options.git.hard, options.git.interval, options.restart)
+    checkGit(remote, branch, options.git.hard, timestring(options.git.interval.toString(), 'ms'), options.restart)
   }
 
   if (options.deps && options.deps.enabled) {
-    checkDeps(manifest, options.deps.interval, options.restart)
+    checkDeps(manifest, timestring(options.deps.interval.toString(), 'ms'), options.restart)
   }
 }

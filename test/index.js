@@ -3,12 +3,12 @@ const separio = require('../')
 separio({
   git: {
     enabled: true,
-    interval: 5000
+    interval: '5s'
   },
-  
+
   deps: {
     enabled: true,
-    interval: 5000
+    interval: '10s'
   },
 
   npm: {
