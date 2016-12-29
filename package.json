@@ -9,7 +9,7 @@
   "author": "Jack Williams <jack@wildfire.gg>",
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.3.3",
+    "debug": "^2.6.0",
     "joi": "^10.0.5",
     "npm-check": "^5.4.0",
     "package-json": "^2.4.0",
