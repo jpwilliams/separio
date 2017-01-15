@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^2.3.3",
-    "joi": "^10.0.5",
+    "joi": "^10.2.0",
     "npm-check": "^5.4.0",
     "package-json": "^2.4.0",
     "simple-git": "^1.65.0",
