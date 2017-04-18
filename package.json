@@ -12,7 +12,7 @@
     "debug": "^2.3.3",
     "joi": "^10.0.5",
     "npm-check": "^5.4.0",
-    "package-json": "^3.0.0",
+    "package-json": "^4.0.1",
     "simple-git": "^1.65.0",
     "timestring": "^3.2.0"
   }
